@@ -90,6 +90,7 @@ export default class DatePicker extends React.Component {
     injectTimes: PropTypes.array,
     inline: PropTypes.bool,
     isClearable: PropTypes.bool,
+    customClearButton: PropTypes.element,
     locale: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({ locale: PropTypes.object })
@@ -740,7 +741,12 @@ export default class DatePicker extends React.Component {
 
   renderClearButton = () => {
     if (this.props.isClearable && this.props.selected != null) {
-      return (
+      return this.props.customClearButton ? (
+        React.cloneElement(this.props.customClearButton, {
+          onClick: this.props.onClearClick,
+          title: this.props.clearButtonTitle
+        })
+      ) : (
         <button
           type="button"
           className="react-datepicker__close-icon"
